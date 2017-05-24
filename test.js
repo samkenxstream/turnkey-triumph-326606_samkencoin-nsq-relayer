@@ -37,6 +37,48 @@ describe('nsq-relayer', () =>
 		spy.restore();
 	});
 
-	it('listens for the configured event');
-	it('posts to nsq on receiving an event');
+	it('listens for the configured event', function(done)
+	{
+		const r = createRelayer();
+		r.handleEvent = function(msg)
+		{
+			msg.must.be.an.object();
+			msg.payload.must.equal('hello world');
+			process.removeAllListeners('nsq');
+			done()
+		}
+		process.emit('nsq', { payload: 'hello world'});
+	});
+
+	it('posts to nsq on receiving an event', function(done)
+	{
+		const r = createRelayer();
+		const msg = { payload: 'hello world'};
+		r.requester.post = function(uri, msg)
+		{
+			uri.must.equal('/pub');
+			msg.must.be.an.object();
+			msg.payload.must.equal('hello world');
+			done()
+		}
+		process.emit('nsq', msg);
+	});
+
+	it('logs on error', function(done)
+	{
+		const r = createRelayer();
+		r.requester.post = function()
+		{
+			return Promise.reject(new Error('wat'));
+		};
+		const msg = { payload: 'hello world'};
+		var count = 0;
+
+		r.logger.error = function()
+		{
+			count++;
+			if (count === 2) done();
+		}
+		r.handleEvent(msg)
+	});
 });

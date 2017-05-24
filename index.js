@@ -10,7 +10,7 @@ const createRelayer = module.exports = function createRelayer(opts)
 	opts = opts || {};
 	opts.topic = opts.topic || 'relayed';
 	opts.event = opts.event || 'nsq';
-	opts.nsq = opts.nsq || 'http://localhost:4151/pub';
+	opts.nsq = opts.nsq || 'http://localhost:4151';
 
 	return new NSQRelayer(opts);
 };
@@ -25,14 +25,14 @@ class NSQRelayer
 		});
 		this.logger = bole(opts.event);
 
-		process.on(opts.event, this.handleEvent.bind(this));
+		process.on(opts.event, msg => this.handleEvent(msg));
 	}
 
 	handleEvent(message)
 	{
 		// Possibly we want to batch, but for our use case, we don't anticipate
 		// hundreds of events at once.
-		this.requester.post(message).then(rez =>
+		this.requester.post('/pub', message).then(rez =>
 		{
 			// silence on success
 			this.logger.debug('posted an event');
