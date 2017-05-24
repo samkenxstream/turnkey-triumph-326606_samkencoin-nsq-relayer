@@ -45,7 +45,7 @@ describe('nsq-relayer', () =>
 			msg.must.be.an.object();
 			msg.payload.must.equal('hello world');
 			process.removeAllListeners('nsq');
-			done()
+			done();
 		}
 		process.emit('nsq', { payload: 'hello world'});
 	});
@@ -59,8 +59,8 @@ describe('nsq-relayer', () =>
 			uri.must.equal('/pub');
 			msg.must.be.an.object();
 			msg.payload.must.equal('hello world');
-			done()
-		}
+			done();
+		};
 		process.emit('nsq', msg);
 	});
 
@@ -78,7 +78,7 @@ describe('nsq-relayer', () =>
 		{
 			count++;
 			if (count === 2) done();
-		}
-		r.handleEvent(msg)
+		};
+		r.handleEvent(msg);
 	});
 });

@@ -7,7 +7,7 @@ const createRelayer = require('nsq-relayer');
 
 const relayer = createRelayer({
 	topic: 'foozle',
-	nsq: 'http://localhost:5141/pub',
+	nsq: 'http://localhost:5141',
 	event: 'event-to-listen-for'
 });
 
