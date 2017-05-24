@@ -3,9 +3,9 @@
 You emit events structured in a specific way and this tool posts them all to its configured nsq instance.
 
 ```js
-const nsqRelayer = require('nsq-relayer');
+const createRelayer = require('nsq-relayer');
 
-const relayer = nsqRelayer({
+const relayer = createRelayer({
 	topic: 'foozle',
 	nsq: 'http://localhost:5141/pub',
 	event: 'event-to-listen-for'
@@ -22,7 +22,9 @@ TBD.
 
 ## Notes
 
-TBD
+No attempt is made to retry failed event posts.
+
+Each event is posted as it arrives, without batching. You might want to batch if you're posting many events per second.
 
 ## Licence
 

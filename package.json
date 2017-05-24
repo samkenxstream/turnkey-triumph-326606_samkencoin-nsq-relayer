@@ -1,10 +1,14 @@
 {
   "name": "numbat-nsq",
-  "author": "C J Silverio <ceejceej@gmail.com>",
   "description": "relay anything you like to nsq",
   "version": "1.0.0",
+  "author": "C J Silverio <ceejceej@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ceejbot/nsq-relayer/issues"
+  },
   "dependencies": {
-    "axios": "~0.16.1"
+    "axios": "~0.16.1",
+    "bole": "~3.0.2"
   },
   "devDependencies": {
     "coveralls": "~2.13.1",
@@ -15,16 +19,26 @@
     "sinon": "~2.3.1",
     "xo": "~0.18.2"
   },
-  "keywords": ["nsq"],
+  "homepage": "https://github.com/ceejbot/nsq-relayer#readme",
+  "keywords": [
+    "nsq"
+  ],
   "license": "ISC",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ceejbot/nsq-relayer.git"
+  },
   "scripts": {
-    "test:code": "mocha -R spec",
+    "test": "mocha -R spec",
     "test:cov": "nyc mocha -R spec",
     "test:style": "xo",
     "test:travis": "npm run test:cov && npm run test:style"
   },
   "xo": {
-    "extends": "eslint-config-ceejbot"
+    "extends": "eslint-config-ceejbot",
+    "rules": {
+      "prefer-arrow-callback": 0
+    }
   }
 }
