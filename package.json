@@ -1,5 +1,5 @@
 {
-  "name": "numbat-nsq",
+  "name": "nsq-relayer",
   "description": "relay anything you like to nsq",
   "version": "1.0.0",
   "author": "C J Silverio <ceejceej@gmail.com>",
