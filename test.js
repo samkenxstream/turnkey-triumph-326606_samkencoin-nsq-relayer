@@ -46,7 +46,7 @@ describe('nsq-relayer', () =>
 			msg.payload.must.equal('hello world');
 			process.removeAllListeners('nsq');
 			done();
-		}
+		};
 		process.emit('nsq', { payload: 'hello world'});
 	});
 

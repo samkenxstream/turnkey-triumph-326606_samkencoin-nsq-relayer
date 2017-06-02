@@ -19,6 +19,8 @@ class NSQRelayer
 {
 	constructor(opts)
 	{
+		if (opts.nsq.endsWith('/pub'))
+			opts.nsq = opts.nsq.replace(/\/pub$/, '');
 		this.requester = axios.create({
 			baseURL: opts.nsq,
 			params: { topic: opts.topic }
