@@ -53,10 +53,10 @@ describe('nsq-relayer', () =>
 	it('posts to nsq on receiving an event', function(done)
 	{
 		const r = createRelayer();
-		const msg = { payload: 'hello world'};
-		r.requester.post = function(uri, msg)
+		const msg = { payload: 'hello world' };
+		r.nsq.publish = function(topic, msg)
 		{
-			uri.must.equal('/pub');
+			topic.must.equal('relayed');
 			msg.must.be.an.object();
 			msg.payload.must.equal('hello world');
 			done();
@@ -67,7 +67,7 @@ describe('nsq-relayer', () =>
 	it('logs on error', function(done)
 	{
 		const r = createRelayer();
-		r.requester.post = function()
+		r.nsq.publish = function()
 		{
 			return Promise.reject(new Error('wat'));
 		};

@@ -7,8 +7,8 @@
     "url": "https://github.com/ceejbot/nsq-relayer/issues"
   },
   "dependencies": {
-    "axios": "~0.16.1",
-    "bole": "~3.0.2"
+    "bole": "~3.0.2",
+    "squeaky": "~1.1.0"
   },
   "devDependencies": {
     "coveralls": "~2.13.1",

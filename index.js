@@ -1,8 +1,9 @@
 'use strict';
 
 const
-	axios = require('axios'),
-	bole  = require('bole')
+	bole    = require('bole'),
+	Squeaky = require('squeaky'),
+	url     = require('url')
 	;
 
 const createRelayer = module.exports = function createRelayer(opts)
@@ -10,7 +11,7 @@ const createRelayer = module.exports = function createRelayer(opts)
 	opts = opts || {};
 	opts.topic = opts.topic || 'relayed';
 	opts.event = opts.event || 'nsq';
-	opts.nsq = opts.nsq || 'http://localhost:4151';
+	opts.nsq = opts.nsq || 'http://localhost:4150';
 
 	return new NSQRelayer(opts);
 };
@@ -19,12 +20,9 @@ class NSQRelayer
 {
 	constructor(opts)
 	{
-		if (opts.nsq.endsWith('/pub'))
-			opts.nsq = opts.nsq.replace(/\/pub$/, '');
-		this.requester = axios.create({
-			baseURL: opts.nsq,
-			params: { topic: opts.topic }
-		});
+		const parsed = url.parse(opts.nsq);
+		this.nsq = new Squeaky({ host: parsed.host });
+		this.topic = opts.topic;
 		this.logger = bole(opts.event);
 
 		process.on(opts.event, msg => this.handleEvent(msg));
@@ -32,12 +30,10 @@ class NSQRelayer
 
 	handleEvent(message)
 	{
-		// Possibly we want to batch, but for our use case, we don't anticipate
-		// hundreds of events at once.
-		this.requester.post('/pub', message).then(rez =>
+		this.nsq.publish(this.topic, message).then(resp =>
 		{
 			// silence on success
-			this.logger.debug('posted an event');
+			this.logger.debug(resp, message);
 		}).catch(err =>
 		{
 			this.logger.error('unexpected problem posting to nsq; dropping event on the floor');
