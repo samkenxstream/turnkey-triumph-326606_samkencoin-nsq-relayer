@@ -1,7 +1,7 @@
 {
   "name": "nsq-relayer",
   "description": "relay anything you like to nsq",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "C J Silverio <ceejceej@gmail.com>",
   "bugs": {
     "url": "https://github.com/ceejbot/nsq-relayer/issues"
