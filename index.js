@@ -6,26 +6,24 @@ const
 	url     = require('url')
 	;
 
-const createRelayer = module.exports = function createRelayer(opts)
-{
-	opts = opts || {};
-	opts.topic = opts.topic || 'relayed';
-	opts.event = opts.event || 'nsq';
-	opts.nsq = opts.nsq || 'http://localhost:4150';
+module.exports = createRelayer;
 
+function createRelayer(opts = {})
+{
 	return new NSQRelayer(opts);
-};
+}
 
 class NSQRelayer
 {
-	constructor(opts)
+	constructor({ nsq = 'http://localhost:4150', topic = 'relayed', event = 'nsq' })
 	{
-		const parsed = url.parse(opts.nsq);
+		const parsed = url.parse(nsq);
 		this.nsq = new Squeaky({ host: parsed.host });
-		this.topic = opts.topic;
-		this.logger = bole(opts.event);
-
-		process.on(opts.event, msg => this.handleEvent(msg));
+		this.topic = topic;
+		this.eventName = event;
+		this.logger = bole(event);
+		this.handler = msg => this.handleEvent(msg);
+		process.on(event, this.handler);
 	}
 
 	handleEvent(message)
@@ -39,6 +37,12 @@ class NSQRelayer
 			this.logger.error('unexpected problem posting to nsq; dropping event on the floor');
 			this.logger.error(err);
 		});
+	}
+
+	close()
+	{
+		this.nsq.close()
+		process.removeListener(this.eventName, this.handler);
 	}
 }
 

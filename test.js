@@ -81,4 +81,21 @@ describe('nsq-relayer', () =>
 		};
 		r.handleEvent(msg);
 	});
+
+	it('exposes close()', function(done)
+	{
+		const r = createRelayer();
+		var count = 0;
+		r.nsq.close = function()
+		{
+			count++;
+		};
+
+		const eventCount = process.listeners('nsq').length;
+		r.close();
+		(process.listeners('nsq').length - eventCount).must.equal(-1);
+		count.must.equal(1);
+		done();
+	});
+
 });
