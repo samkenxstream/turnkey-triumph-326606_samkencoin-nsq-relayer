@@ -1,5 +1,5 @@
 {
-  "name": "nsq-relayer",
+  "name": "@npm/nsq-relayer",
   "description": "relay anything you like to nsq",
   "version": "1.0.3",
   "author": "C J Silverio <ceejceej@gmail.com>",
@@ -27,7 +27,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ceejbot/nsq-relayer.git"
+    "url": "git+https://github.com/npm/nsq-relayer.git"
   },
   "scripts": {
     "test": "mocha -R spec",
