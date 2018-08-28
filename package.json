@@ -8,16 +8,16 @@
   },
   "dependencies": {
     "bole": "~3.0.2",
-    "squeaky": "~1.1.0"
+    "squeaky": "^2.4.1"
   },
   "devDependencies": {
-    "coveralls": "~2.13.1",
-    "eslint-config-ceejbot": "~1.0.4",
-    "mocha": "~3.4.1",
+    "coveralls": "^3.0.2",
+    "eslint-config-ceejbot": "^1.1.2",
+    "mocha": "^5.2.0",
     "must": "~0.13.4",
-    "nyc": "~10.3.2",
-    "sinon": "~2.3.1",
-    "xo": "~0.18.2"
+    "nyc": "^13.0.1",
+    "sinon": "^6.1.5",
+    "xo": "^0.22.0"
   },
   "homepage": "https://github.com/ceejbot/nsq-relayer#readme",
   "keywords": [

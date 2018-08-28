@@ -2,7 +2,7 @@
 
 const
 	bole    = require('bole'),
-	Squeaky = require('squeaky'),
+	squeaky = require('squeaky'),
 	url     = require('url')
 	;
 
@@ -18,7 +18,7 @@ class NSQRelayer
 	constructor({ nsq = 'nsq://localhost:4150', topic = 'relayed', event = 'nsq' })
 	{
 		const parsed = url.parse(nsq);
-		this.nsq = new Squeaky({ host: parsed.hostname, port: parsed.port || 4150 });
+		this.nsq = new squeaky.Publisher({ host: parsed.hostname, port: parsed.port || 4150 });
 		this.topic = topic;
 		this.eventName = event;
 		this.logger = bole(event);
@@ -41,7 +41,7 @@ class NSQRelayer
 
 	close()
 	{
-		this.nsq.close()
+		this.nsq.close();
 		process.removeListener(this.eventName, this.handler);
 	}
 }
