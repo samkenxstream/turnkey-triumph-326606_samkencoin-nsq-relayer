@@ -14,27 +14,33 @@ describe('nsq-relayer', () =>
 		createRelayer.must.be.a.function();
 		const r = createRelayer();
 		r.must.be.instanceof(createRelayer.NSQRelayer);
+		r.close();
 	});
 
 	it('obeys its options', function()
 	{
 		const spy = sinon.spy(process, 'on');
-		createRelayer({
+		const r = createRelayer({
 			event: 'zaphod'
 		});
 
 		spy.called.must.be.true();
 		spy.calledWith('zaphod').must.be.true();
 		spy.restore();
+
+		r.close();
 	});
 
 	it('defaults options when they are not provided', function()
 	{
 		const spy = sinon.spy(process, 'on');
-		createRelayer();
+		const r = createRelayer();
+
 		spy.called.must.be.true();
 		spy.calledWith('nsq').must.be.true();
 		spy.restore();
+
+		r.close();
 	});
 
 	it('listens for the configured event', function(done)
@@ -45,6 +51,7 @@ describe('nsq-relayer', () =>
 			msg.must.be.an.object();
 			msg.payload.must.equal('hello world');
 			process.removeAllListeners('nsq');
+			r.close();
 			done();
 		};
 		process.emit('nsq', { payload: 'hello world'});
@@ -59,6 +66,7 @@ describe('nsq-relayer', () =>
 			topic.must.equal('relayed');
 			msg.must.be.an.object();
 			msg.payload.must.equal('hello world');
+			r.close();
 			done();
 		};
 		process.emit('nsq', msg);
@@ -77,7 +85,11 @@ describe('nsq-relayer', () =>
 		r.logger.error = function()
 		{
 			count++;
-			if (count === 2) done();
+			if (count === 2)
+			{
+				r.close();
+				done();
+			}
 		};
 		r.handleEvent(msg);
 	});
@@ -86,9 +98,11 @@ describe('nsq-relayer', () =>
 	{
 		const r = createRelayer();
 		var count = 0;
+		const close = r.nsq.close.bind(r.nsq);
 		r.nsq.close = function()
 		{
 			count++;
+			close();
 		};
 
 		const eventCount = process.listeners('nsq').length;
