@@ -1,7 +1,7 @@
 {
   "name": "@npm/nsq-relayer",
   "description": "relay anything you like to nsq",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "C J Silverio <ceejceej@gmail.com>",
   "bugs": {
     "url": "https://github.com/npm/nsq-relayer/issues"
