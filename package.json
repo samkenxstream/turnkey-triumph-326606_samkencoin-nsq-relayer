@@ -4,7 +4,7 @@
   "version": "1.0.4",
   "author": "C J Silverio <ceejceej@gmail.com>",
   "bugs": {
-    "url": "https://github.com/ceejbot/nsq-relayer/issues"
+    "url": "https://github.com/npm/nsq-relayer/issues"
   },
   "dependencies": {
     "bole": "~3.0.2",
@@ -19,7 +19,7 @@
     "sinon": "^6.1.5",
     "xo": "^0.22.0"
   },
-  "homepage": "https://github.com/ceejbot/nsq-relayer#readme",
+  "homepage": "https://github.com/npm/nsq-relayer#readme",
   "keywords": [
     "nsq"
   ],
