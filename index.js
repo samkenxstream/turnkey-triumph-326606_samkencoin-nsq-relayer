@@ -32,10 +32,10 @@ class NSQRelayer
 		{
 			// silence on success
 			this.logger.debug(resp, message);
-		}).catch(err =>
+		}).catch(error =>
 		{
 			this.logger.error('unexpected problem posting to nsq; dropping event on the floor');
-			this.logger.error(err);
+			this.logger.error(error);
 		});
 	}
 
